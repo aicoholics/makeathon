@@ -13,7 +13,6 @@ function Chat() {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSendMessage = async (message) => {
-    console.log(messages);
     setIsLoading(true);
     setMessages([
       // spread operator which appends the new message to the end of the array
@@ -41,12 +40,9 @@ function Chat() {
             role: "user",
           }]
         }),
-
       });
       const data = await response.json();
-
-      console.log(data.content);
-
+      console.log(data);
       setMessages((messages) => [
         ...messages.slice(0, -1),
         {
@@ -54,19 +50,15 @@ function Chat() {
           role: "assistant",
         },
       ]);
-
-
     } catch (error) {
       console.error(error);
     }
-
     setIsLoading(false);
   };
 
   return (
     <div className="Chat">
       <Messages messages={messages} currentMember="user" />
-
       <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   );
