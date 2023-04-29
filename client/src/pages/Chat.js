@@ -13,7 +13,6 @@ function Chat() {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSendMessage = async (message) => {
-    console.log(messages);
     setIsLoading(true);
     setMessages([
       // spread operator which appends the new message to the end of the array
@@ -44,8 +43,6 @@ function Chat() {
 
       });
       const data = await response.json();
-
-      console.log(data.content);
 
       setMessages((messages) => [
         ...messages.slice(0, -1),
