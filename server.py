@@ -1,10 +1,14 @@
 import openai
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 
 # global variables
 model = 'gpt-3.5-turbo'
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = open('api_key.txt', 'r').read()
+if openai.api_key is None:
+    raise Exception("Missing OPENAI_API_KEY environment variable")
 
 
 
@@ -44,6 +48,7 @@ give suggestions which AI can help to achieve their organization's goal."""
 
 
 app = Flask(__name__)
+CORS(app)
 
 # API ENDPOINTS: DEBUG
 @app.route('/')
