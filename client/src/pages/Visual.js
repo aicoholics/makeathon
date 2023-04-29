@@ -64,12 +64,13 @@ function Visual() {
       setMessages2((messages2) => [
         ...messages2,
         {
-          content: JSON.stringify(data),
+          content: JSON.stringify(data.result),
           role: "assistant",
         },
       ]);
-      setEntities(data.entities);
-      console.log(data.entities);
+      setEntities(data.result.entities);
+      setComment(data.comment);
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -77,9 +78,15 @@ function Visual() {
   };
 
   const [entities, setEntities] = useState([]);
+  const [comment, setComment] = useState("");
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh" }}>
+    <div style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}>
+      {comment && (
+        <div style={{ backgroundColor: "cornflowerblue", padding: "0px 10px", maxWidth: "300px", margin: "auto", borderRadius: "10px" }}>
+          <p style={{ color: "white" }}>{comment}</p>
+        </div>
+      )}
       {Object.keys(entities).map((key) => (
         <Entity
           name={key}
