@@ -2,16 +2,17 @@ import Entity from '../components/Entity';
 import { useEffect, useState, useContext } from 'react';
 import MessageContext from '../MessageContext';
 import SummaryContext from '../SummaryContext';
+import MessageContext2 from '../MessageContext2';
 import Input from '../components/Input';
 
 function Visual() {
   const [summary, setSummary] = useContext(SummaryContext);
-  const [messages, setMessages] = useContext(MessageContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useContext(MessageContext);
+  const [messages2, setMessages2] = useContext(MessageContext2);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
       try {
         const response = await fetch("http://10.183.68.9:5000/summarizer", {
           method: "POST",
@@ -23,36 +24,66 @@ function Visual() {
           }),
         });
         const data = await response.json();
-        console.log(data);
         setSummary(data);
       } catch (error) {
         console.error(error);
       }
     };
-
-    setIsLoading(false);
-
     fetchData();
   }, []);
 
+
+
+
+
   const onSendMessage = async (message) => {
     setIsLoading(true);
-    setMessages([
-      // spread operator which appends the new message to the end of the array
-
+    setMessages2([
+      ...messages2,
+      {
+        content: message,
+        role: "user",
+      },
     ]);
-  }
-
+    try {
+      const response = await fetch("http://10.183.68.9:5000/visualizer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "conversation": [...messages2,
+          {
+            content: message,
+            role: "user",
+          }],
+          "interview_summary": summary
+        }),
+      });
+      const data = await response.json();
+      setMessages2((messages2) => [
+        ...messages2,
+        {
+          content: JSON.stringify(data),
+          role: "assistant",
+        },
+      ]);
+      setEntities(data.entities);
+      console.log(data.entities);
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
+  };
 
   const [entities, setEntities] = useState([]);
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
-      {entities.map((entity) => (
+      {Object.keys(entities).map((key) => (
         <Entity
-          key={entity.name}
-          name={entity.name}
-          description={entity.description}
+          name={key}
+          description={entities[key]}
         />
       ))}
       <div

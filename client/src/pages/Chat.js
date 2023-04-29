@@ -40,10 +40,9 @@ function Chat() {
             role: "user",
           }]
         }),
-
       });
       const data = await response.json();
-
+      console.log(data);
       setMessages((messages) => [
         ...messages.slice(0, -1),
         {
@@ -51,19 +50,15 @@ function Chat() {
           role: "assistant",
         },
       ]);
-
-
     } catch (error) {
       console.error(error);
     }
-
     setIsLoading(false);
   };
 
   return (
     <div className="Chat">
       <Messages messages={messages} currentMember="user" />
-
       <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   );
