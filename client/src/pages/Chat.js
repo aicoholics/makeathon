@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Messages from "../components/Messages";
 import "../App.css";
 import Input from "../components/Input";
 import { Button } from "@mui/material";
+import MessageContext from "../MessageContext";
 
 function Chat() {
 
-  const [messages, setMessages] = useState([
-    {
-      content: "Hello I am your new AI consultant. Tell me more about your job.",
-      role: "assistant",
-    },
-  ]);
+  const [messages, setMessages] = useContext(MessageContext);
+  const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
   const onSendMessage = async (message) => {
+    console.log(messages);
     setIsLoading(true);
     setMessages([
       // spread operator which appends the new message to the end of the array

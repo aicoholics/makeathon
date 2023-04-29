@@ -1,5 +1,6 @@
 import Entity from '../components/Entity';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import MessageContext from '../MessageContext';
 
 const getEntities = async () => {
   const response = await fetch('http://10.183.68.9:5000/', {
@@ -37,18 +38,16 @@ const postEntities = async () => {
 const mockData = {
   "entities": [
     { "name": "ENTITY1", "description": "DESCRIPTION 1" },
-    { "name": "ENTITY2", "description": "DESCRIPTION 2" },
-    { "name": "ENTITY3", "description": "DESCRIPTION 3" },
   ],
   "relations": [
     { "from": "ENTITY1", "to": "ENTITY2", "description": "RELATION DESCRIPTION 1" },
-    { "from": "ENTITY2", "to": "ENTITY3", "description": "RELATION DESCRIPTION 2" },
   ]
 }
 
 
 function Visual() {
   const [entities, setEntities] = useState([]);
+  const [messages, setMessages] = useContext(MessageContext);
 
   // useEffect(() => {
   //   getEntities().then(data => setEntities(Object.entries(data).map(([name, description]) => ({ name, description }))));
