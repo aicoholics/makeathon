@@ -5,7 +5,7 @@ import Topbar from "./components/Topbar";
 import { useState } from "react";
 
 function App() {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
 
   return (
     <div className="App">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Input = ({ onSendMessage }) => {
+const Input = ({ onSendMessage, disabled }) => {
   const [text, setText] = useState("");
 
   const handleSubmit = (e) => {
@@ -23,6 +23,7 @@ const Input = ({ onSendMessage }) => {
           type="text"
           placeholder="Enter your message and press ENTER"
           autoFocus
+          disabled={disabled}
         />
         <button>Send</button>
       </form>
