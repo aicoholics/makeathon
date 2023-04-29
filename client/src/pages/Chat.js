@@ -2,23 +2,14 @@ import React, { useState } from "react";
 import Messages from "../components/Messages";
 import "../App.css";
 import Input from "../components/Input";
+import { Button } from "@mui/material";
 
 function Chat() {
 
-  const [user] = useState({
-    username: "User",
-    color: "blue",
-  });
-  const [assistant] = useState({
-    username: "AI Consultant",
-    color: "blue",
-  });
-
-
   const [messages, setMessages] = useState([
     {
-      text: "Hello I am your new AI consultant. Tell me more about your job.",
-      member: assistant,
+      content: "Hello I am your new AI consultant. Tell me more about your job.",
+      role: "assistant",
     },
   ]);
 
@@ -30,12 +21,12 @@ function Chat() {
       // spread operator which appends the new message to the end of the array
       ...messages,
       {
-        text: message,
-        member: user,
+        content: message,
+        role: "user",
       },
       {
-        text: "...",
-        member: assistant,
+        content: "...",
+        role: "assistant",
       },
     ]);
 
@@ -45,7 +36,14 @@ function Chat() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ "conversation": messages }),
+        body: JSON.stringify({
+          "conversation": [...messages,
+          {
+            content: message,
+            role: "user",
+          }]
+        }),
+
       });
       const data = await response.json();
 
@@ -54,10 +52,11 @@ function Chat() {
       setMessages((messages) => [
         ...messages.slice(0, -1),
         {
-          text: data.content,
-          member: assistant,
+          content: data.content,
+          role: "assistant",
         },
       ]);
+
 
     } catch (error) {
       console.error(error);
@@ -68,7 +67,8 @@ function Chat() {
 
   return (
     <div className="Chat">
-      <Messages messages={messages} currentMember={user} />
+      <Messages messages={messages} currentMember="user" />
+
       <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   );
