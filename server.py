@@ -9,13 +9,38 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 # prompts
-INTERVIEWER_PROMPT = """You are an interviewer that asks the user about their job, including title, description, industry, involved parties, 
-goal, etc., in order to understand the role and its goal. You can ask specific questions to clarify."""
+INTERVIEWER_PROMPT = """You are an interviewer that asks about the position of the user in the company and, based on the answer, 
+understand the entails of the organization, including roles, job descriptions, industry, the organization's goal, etc. The purpose of 
+this interview is to gain an overview understanding of aim of the organization. You can ask specific questions to clarify."""
 
-VISUALIZER_PROMPT = """You are a visualizer that asks the user about their job, including title, description, industry, involved parties,"""
+VISUALIZER_PROMPT = """You read the user's description of their company structure and parties' relations, then summarize it to a list of 
+entities and the relations in the company or team, exactly according to the user's description and without your own speculation. 
+Format the your answer as a JSON object(example):
 
-SUGGESTER_PROMPT = """You are an interviewer that asks the user about their job, including title, description, industry, involved parties, 
-goal, etc., in order to understand the role and its goal. You can ask specific questions to clarify."""
+{
+  "Entities": {
+    "HR": "Manage employees and workplace.",
+    "Marketing": "Business development, branding, promotion, etc.",
+    "Customer Support": "Offer support and troubleshooting products over chat and hotline."
+  },
+  "Relations": [
+    {
+      "from": "Marketing",
+      "to": "Customer Support",
+      "description": "Gives instructions on deals to promote to customers"
+    },
+    {
+      "from": "HR",
+      "to": "Customer Support",
+      "description": "Check performance and feedback on each employee"
+    }
+  ]
+}
+
+"""
+
+SUGGESTER_PROMPT = """You are a problem solver that based on the given summaries of the work relations, observe the potential problems and 
+give suggestions which AI can help to achieve their organization's goal."""
 
 
 app = Flask(__name__)
@@ -46,7 +71,7 @@ def interviewer():
     conversation = input['conversation']
     system_prompt = input.get('system_prompt', INTERVIEWER_PROMPT)
 
-    return "Oh that's great! Thank you for your time."
+    return {"role": "assistant", "content": "Oh that's great! Thank you for your time."}
 
 
 @app.route('/visualizer', methods=['GET', 'POST'])
@@ -64,8 +89,8 @@ def visualizer():
             "NAME": "DESCRIPTION",},
         "relations": [
             {"from": "ENTITY1", "to": "ENTITY2", "description": "DESCRIPTION"}
-  ]
-}
+        ]
+    }
     return jsonify(entrynrelations)
 
 @app.route('/suggester', methods=['GET', 'POST'])
@@ -92,6 +117,16 @@ def dev_interviewer():
     # send the conversation to GPT
     return interview_chatGPT(conversation, system_prompt)
 
+@app.route('/dev_visualizer', methods=['POST'])
+def dev_visualizer():   
+    # get the conversation from the request
+    input = request.get_json()
+
+    conversation = input['conversation']
+    system_prompt = input.get('system_prompt', VISUALIZER_PROMPT)
+
+    return visualize_chatGPT(conversation, system_prompt)
+
 
 @app.route('/dev_suggester', methods=['POST'])
 def dev_suggester():
@@ -114,7 +149,19 @@ def interview_chatGPT(conversation, system_prompt=INTERVIEWER_PROMPT):
         ] + conversation,
     )
     print('DEBUG:', completion.choices[0].message)
+    return jsonify(completion.choices[0].message)
+
+
+def visualize_chatGPT(conversation, system_prompt=VISUALIZER_PROMPT):
+    completion = openai.ChatCompletion.create(
+        model=model,
+        messages=[
+            {'role': 'system', 'content': system_prompt},
+        ] + conversation,
+    )
+    print('DEBUG:', completion.choices[0].message)
     return jsonify(completion.choices[0].message.content)
+
 
 def suggest_chatGPT(conversation, system_prompt=SUGGESTER_PROMPT):
     completion = openai.ChatCompletion.create(
