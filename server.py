@@ -1,10 +1,14 @@
 import openai
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 
 # global variables
 model = 'gpt-3.5-turbo'
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = open('api_key.txt', 'r').read()
+if openai.api_key is None:
+    raise Exception("Missing OPENAI_API_KEY environment variable")
 
 
 
@@ -19,6 +23,7 @@ goal, etc., in order to understand the role and its goal. You can ask specific q
 
 
 app = Flask(__name__)
+CORS(app)
 
 # API ENDPOINTS: DEBUG
 @app.route('/')
