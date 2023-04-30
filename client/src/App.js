@@ -46,6 +46,9 @@ function App() {
                         position: "fixed",
                         bottom: 0,
                         right: 0,
+                        marginRight: "20px",
+                        marginBottom: "35px",
+                        backgroundColor: "#483d8b",
                       }}
                       variant="contained"
                       component="label"
@@ -58,6 +61,9 @@ function App() {
                         position: "fixed",
                         bottom: 0,
                         left: 0,
+                        marginLeft: "20px",
+                        marginBottom: "35px",
+                        backgroundColor: "#483d8b",
                       }}
                       variant="contained"
                       component="label"

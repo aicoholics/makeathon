@@ -86,7 +86,7 @@ function Visual() {
       {comment && (
         <div
           style={{
-            backgroundColor: "cornflowerblue",
+            backgroundColor: "#483d8b",
             padding: "0px 10px",
             maxWidth: "300px",
             margin: "auto",
@@ -96,15 +96,14 @@ function Visual() {
           <p style={{ color: "white" }}>{comment}</p>
         </div>
       )}
-      <div >
+
+
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {Object.keys(entities).map((key) => (
-          <Entity
-            name={key}
-            description={entities[key]}
-            makeComplex={true}
-          />
+          <Entity name={key} description={entities[key]} makeComplex={true} />
         ))}
       </div>
+
 
       <div
         style={{
