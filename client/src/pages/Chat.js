@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import Messages from "../components/Messages";
 import "../App.css";
 import Input from "../components/Input";
@@ -12,6 +12,7 @@ function Chat() {
   const [message, setMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+  const bottomRef = useRef(null);
 
   const onSendMessage = async (message) => {
     setIsLoading(true);
@@ -57,9 +58,16 @@ function Chat() {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    bottomRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="Chat">
-      <Messages messages={messages} currentMember="user" />
+      <div>
+        <Messages messages={messages} currentMember="user" />
+        <div ref={bottomRef}></div>
+      </div>
       <div style={{ paddingBottom: "100px" }}></div>
       <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
