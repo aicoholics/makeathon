@@ -98,7 +98,7 @@ function Visual() {
       )}
       <div>
         {Object.keys(entities).map((key) => (
-          <Entity name={key} description={entities[key]} />
+          <Entity name={key} description={entities[key]} makeComplex={true} />
         ))}
       </div>
 
