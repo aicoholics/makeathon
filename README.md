@@ -1,12 +1,12 @@
-# Claire - 
+# Claire
 
-Claire was inspired by the desire to democratize access to AI by developing a framework to find valuable AI use cases for businesses. Our AI tool analyzes existing business workflows and provides customized recommendations for integrating AI solutions. We built Claire using state-of-the-art machine-learning algorithms and cloud-based infrastructure.
+Claire was inspired by the desire to democratize access to AI by developing a framework to find valuable AI use cases for both on individual level, business level, up to industry-scale settings. Our AI consultant analyzes existing business workflows and relations to provide customized recommendations for integrating AI solutions to improve the efficiency and quality-of-life. We built Claire using LLMs to enable intuitive and accessible, yet powerful and flexible interaction with the AI consultant. It allows the user to give any type of feedback or ask questions in an iterative manner, while also visualizing the AI consultant's analysis of the described situation in an intuitive manner.
 
-We faced several challenges in developing Claire, including data collection and management, algorithm selection, and interface design. However, we are proud of our accomplishments, including developing a user-friendly interface, implementing a reliable recommendation system, and ensuring data security and privacy.
+We faced several challenges in developing Claire, including ensuring accurate, yet helpful and detailed use case suggestions, and visualizing the AI's understanding of the user's description in a fast and intuitive manner. We also took great care into balancing broad applicability and target demographic, while also maximizing the usefulness to each.
 
 Through this project, we learned about the importance of domain expertise, data quality, and effective communication in AI development.
 
-Next, we plan to expand Clire's capabilities by incorporating natural language processing and deep learning techniques. We also aim to partner with businesses to gather feedback and improve the tool's functionality.
+Next, we plan to expand Clire's capabilities by incorporating agent-based natural language processing with tool access and long-horizon planning, web queries, self-prompting, etc. We also aim to partner with businesses to gather feedback and improve the tool's functionality.
 
 # Example Use Cases Suggested by Claire
 
