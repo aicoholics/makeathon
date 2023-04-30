@@ -5,6 +5,8 @@ import Suggestor from "./pages/Suggestor";
 import Topbar from "./components/Topbar";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MessageContext from "./MessageContext";
 import MessageContext2 from "./MessageContext2";
 import MessageContext3 from "./MessageContext3";
@@ -14,7 +16,8 @@ import EntityContext from "./EntityContext";
 function App() {
   const [messages, setMessages] = useState([
     {
-      content: "Hello I am your new AI consultant. Tell me more about your job.",
+      content:
+        "Hello I am your new AI consultant. Tell me more about your job.",
       role: "assistant",
     },
   ]);
@@ -23,7 +26,6 @@ function App() {
   const [summary, setSummary] = useState("");
   const [entities, setEntities] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
-
 
   return (
     <EntityContext.Provider value={[entities, setEntities]}>
@@ -38,22 +40,29 @@ function App() {
                 {currentStep === 3 && <Suggestor />}
                 {currentStep < 4 && (
                   <div>
-
                     <Button
-                      sx={{ position: "absolute", bottom: 0, right: 0 }}
+                      sx={{
+                        position: "fixed",
+                        bottom: 0,
+                        right: 0,
+                      }}
                       variant="contained"
                       component="label"
                       onClick={() => setCurrentStep(currentStep + 1)}
                     >
-                      Next
+                      Next <ArrowForwardIcon />
                     </Button>
                     <Button
-                      sx={{ position: "absolute", bottom: 0, left: 0 }}
+                      sx={{
+                        position: "fixed",
+                        bottom: 0,
+                        left: 0,
+                      }}
                       variant="contained"
                       component="label"
                       onClick={() => setCurrentStep(currentStep - 1)}
                     >
-                      Back
+                      <ArrowBackIcon /> Back
                     </Button>
                   </div>
                 )}
