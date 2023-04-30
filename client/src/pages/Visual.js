@@ -14,10 +14,16 @@ function Visual() {
   const [messages2, setMessages2] = useContext(MessageContext2);
   const [entities, setEntities] = useContext(EntityContext);
 
-  const [comment, setComment] = useState("Tell me about your job");
+  const [comment, setComment] = useState(
+    "Hey, I'm your visual AI assistant, please explain me more about your workflow"
+  );
+  const [showComment, setShowComment] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      const timeoutId = setTimeout(() => {
+        setShowComment(false);
+      }, 5000); // hide the comment after 5 seconds
       try {
         const response = await fetch(apiUrl + "summarizer", {
           method: "POST",
@@ -83,13 +89,24 @@ function Visual() {
     <div
       style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}
     >
-      {comment && (
+      {showComment && comment && (
         <div
           style={{
             backgroundColor: "#483d8b",
             padding: "0px 10px",
             maxWidth: "300px",
             margin: "auto",
+            position: "absolute",
+            top: "0",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            width: "50%",
+            height: "80px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: "0.5",
             borderRadius: "10px",
           }}
         >
