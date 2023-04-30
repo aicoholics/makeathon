@@ -119,19 +119,8 @@ function Visual() {
         }}
       ></div> : null}
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          margin: "0 auto",
-          width: 1000,
-          paddingBottom: 40,
-        }}
-      >
-        <Input onSendMessage={onSendMessage} disabled={isLoading} />
-      </div>
+      <div style={{ paddingBottom: "100px" }}></div>
+      <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   );
 }
