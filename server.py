@@ -1,9 +1,10 @@
 import openai
 import os
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import time
 import json
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from haystack.nodes.retriever.web import WebRetriever
 
 
 # global variables
@@ -23,6 +24,7 @@ this interview is to gain an overview understanding of aim of the organization. 
 SUMMARIZER_PROMPT = """You are a summarizer that based on the given interview, summarize it accurately."""
 
 def VISUALIZER_PROMPT(interview_summary):
+    print('intsfdghj',interview_summary)
     return """You read the user's description, then summarize it to a list of entities and the relations in the company or team, exactly according to the user's description and without your own speculation. 
 You must format the your answer as a single JSON object, and not include any other text at all (example):
 {
@@ -92,6 +94,9 @@ List of AI models that can be used to solve the problem:
 - ChatGPT: A powerful chatbot that can answer any question in a flexible manner.
 - DALL-E: A powerful image generator that can generate images based on text descriptions.
 - GodAI: The most powerful AI that can solve any problem with the best solution.
+
+
+
 """
 
 
@@ -128,8 +133,8 @@ def mock_interviewer():
     time.sleep(1)
     return jsonify({"role": "assistant", "content": "Oh that's great! Thank you for your time."})
 
-@app.route('/summarizer', methods=['POST'])
-def summarizer():
+@app.route('/mock_summarizer', methods=['POST'])
+def mock_summarizer():
     # get the conversation from the request
     input = request.get_json()
 
@@ -167,8 +172,19 @@ def suggester():
     structure = input['structure']
     conversation = input['conversation']
     system_prompt = input.get('system_prompt', SUGGESTER_PROMPT(interview_summary, structure))
+    
+    comment = "I have the following suggestions for you:"
 
-    return jsonify("Oh how do you find our solution?")
+    results ={
+            "entity": "Marketing",
+            "current_approach": "Marketing team manually selects the deals to promote to customers.",
+            "problem": "The marketing team may not be able to select the best deals to promote to customers.",
+            "solution": "AI can select the best deals to promote to customers.",
+            "expected_value": "AI can increase the sales by 10%.",
+            "risks": "AI may not be able to select the best deals to promote to customers.",
+            "required_resources": "Data of the past deals and their performance."
+        }
+    return jsonify({"comment": comment, "result": results})
 
 
 
@@ -184,8 +200,8 @@ def interviewer():
     # send the conversation to GPT
     return ask_chatGPT(conversation, system_prompt)
 
-@app.route('/dev_summarizer', methods=['POST'])
-def dev_summarizer():
+@app.route('/summarizer', methods=['POST'])
+def summarizer():
     # get the conversation from the request
     input = request.get_json()
 
@@ -197,7 +213,7 @@ def dev_summarizer():
         conversation = conversation[:-1]
 
     # send the conversation to GPT
-    return ask_chatGPT(conversation, system_prompt)
+    return jsonify(ask_chatGPT(conversation, system_prompt, should_jsonify=False).content)
 
 
 
