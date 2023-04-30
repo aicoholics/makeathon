@@ -1,8 +1,9 @@
 import Entity from '../components/Entity';
 import { useEffect, useState, useContext } from 'react';
-import MessageContext from '../MessageContext';
 import SummaryContext from '../SummaryContext';
+import MessageContext from '../MessageContext';
 import MessageContext2 from '../MessageContext2';
+import EntityContext from '../EntityContext';
 import Input from '../components/Input';
 
 function Visual() {
@@ -10,6 +11,9 @@ function Visual() {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useContext(MessageContext);
   const [messages2, setMessages2] = useContext(MessageContext2);
+  const [entities, setEntities] = useState([]);
+  const [entities2, setEntities2] = useState(EntityContext);
+  const [comment, setComment] = useState("Tell me about your job");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,9 +35,6 @@ function Visual() {
     };
     fetchData();
   }, []);
-
-
-
 
 
   const onSendMessage = async (message) => {
@@ -69,6 +70,7 @@ function Visual() {
         },
       ]);
       setEntities(data.result.entities);
+      setEntities2(data.result.entities);
       setComment(data.comment);
       console.log(data);
     } catch (error) {
@@ -77,8 +79,7 @@ function Visual() {
     setIsLoading(false);
   };
 
-  const [entities, setEntities] = useState([]);
-  const [comment, setComment] = useState("");
+
 
   return (
     <div style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}>
@@ -87,12 +88,12 @@ function Visual() {
           <p style={{ color: "white" }}>{comment}</p>
         </div>
       )}
-      {Object.keys(entities).map((key) => (
+      {entities && (Object.keys(entities).map((key) => (
         <Entity
           name={key}
           description={entities[key]}
         />
-      ))}
+      )))}
       <div
         style={{
           position: "absolute",

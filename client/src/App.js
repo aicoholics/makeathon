@@ -7,7 +7,9 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import MessageContext from "./MessageContext";
 import MessageContext2 from "./MessageContext2";
+import MessageContext3 from "./MessageContext3";
 import SummaryContext from "./SummaryContext";
+import EntityContext from "./EntityContext";
 
 function App() {
   const [messages, setMessages] = useState([
@@ -16,46 +18,51 @@ function App() {
       role: "assistant",
     },
   ]);
-  const [summary, setSummary] = useState("");
-  const [currentStep, setCurrentStep] = useState(1);
-
   const [messages2, setMessages2] = useState([]);
+  const [message3, setMessage3] = useState([]);
+  const [summary, setSummary] = useState("");
+  const [entities, setEntities] = useState([]);
+  const [currentStep, setCurrentStep] = useState(1);
 
 
   return (
-    <MessageContext2.Provider value={[messages2, setMessages2]}>
-      <MessageContext.Provider value={[messages, setMessages]}>
-        <SummaryContext.Provider value={[summary, setSummary]}>
-          <div className="App">
-            <Topbar currentStep={currentStep} />
-            {currentStep === 1 && <Chat />}
-            {currentStep === 2 && <Visual />}
-            {currentStep === 3 && <Suggestor />}
-            {currentStep < 4 && (
-              <div>
+    <EntityContext.Provider value={[entities, setEntities]}>
+      <MessageContext3.Provider value={[message3, setMessage3]}>
+        <MessageContext2.Provider value={[messages2, setMessages2]}>
+          <MessageContext.Provider value={[messages, setMessages]}>
+            <SummaryContext.Provider value={[summary, setSummary]}>
+              <div className="App">
+                <Topbar currentStep={currentStep} />
+                {currentStep === 1 && <Chat />}
+                {currentStep === 2 && <Visual />}
+                {currentStep === 3 && <Suggestor />}
+                {currentStep < 4 && (
+                  <div>
 
-                <Button
-                  sx={{ position: "absolute", bottom: 0, right: 0 }}
-                  variant="contained"
-                  component="label"
-                  onClick={() => setCurrentStep(currentStep + 1)}
-                >
-                  Next
-                </Button>
-                <Button
-                  sx={{ position: "absolute", bottom: 0, left: 0 }}
-                  variant="contained"
-                  component="label"
-                  onClick={() => setCurrentStep(currentStep - 1)}
-                >
-                  Back
-                </Button>
+                    <Button
+                      sx={{ position: "absolute", bottom: 0, right: 0 }}
+                      variant="contained"
+                      component="label"
+                      onClick={() => setCurrentStep(currentStep + 1)}
+                    >
+                      Next
+                    </Button>
+                    <Button
+                      sx={{ position: "absolute", bottom: 0, left: 0 }}
+                      variant="contained"
+                      component="label"
+                      onClick={() => setCurrentStep(currentStep - 1)}
+                    >
+                      Back
+                    </Button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </SummaryContext.Provider>
-      </MessageContext.Provider>
-    </MessageContext2.Provider>
+            </SummaryContext.Provider>
+          </MessageContext.Provider>
+        </MessageContext2.Provider>
+      </MessageContext3.Provider>
+    </EntityContext.Provider>
   );
 }
 
