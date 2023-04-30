@@ -21,10 +21,9 @@ INTERVIEWER_PROMPT = """You are an interviewer that asks about the position of t
 understand the entails of the organization, including roles, job descriptions, industry, the organization's goal, etc. The purpose of 
 this interview is to gain an overview understanding of aim of the organization. You can ask specific questions to clarify."""
 
-SUMMARIZER_PROMPT = """You are a summarizer that based on the given interview, summarize it accurately."""
+SUMMARIZER_PROMPT = """You are a summarizer that based on the given interview, summarize what the USER said accurately, but without mentioning the INTERVIEWER."""
 
 def VISUALIZER_PROMPT(interview_summary):
-    print('intsfdghj',interview_summary)
     return """You read the user's description, then summarize it to a list of entities and the relations in the company or team, exactly according to the user's description and without your own speculation. 
 You must format the your answer as a single JSON object, and not include any other text at all (example):
 {
@@ -209,8 +208,12 @@ def summarizer():
     if conversation[-1]['role'] == 'assistant':
         conversation = conversation[:-1]
 
+    # convert the conversation to a string
+    conversation = [f"\n{'USER' if msg['role'] == 'user' else 'INTERVIEWER'}:  {msg['content']}" for msg in conversation]
+    conversation = ''.join(conversation)
+        
     # send the conversation to GPT
-    return jsonify(ask_chatGPT(conversation, system_prompt, should_jsonify=False).content)
+    return jsonify(ask_chatGPT([{'role': 'user', 'content': 'Please summarize what the USER said in the following interview precisely. Do not mention the INTERVIEWER at all. \n'+conversation}], system_prompt, should_jsonify=False).content)
 
 
 

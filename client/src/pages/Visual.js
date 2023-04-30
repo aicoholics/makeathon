@@ -15,7 +15,7 @@ function Visual() {
   const [entities, setEntities] = useContext(EntityContext);
 
   const [comment, setComment] = useState(
-    "Hey, I'm your visual AI assistant, please explain me more about your workflow"
+    "Please explain the structure of your work/company/industry in detail."
   );
   const [showComment, setShowComment] = useState(true);
 
@@ -35,6 +35,7 @@ function Visual() {
           }),
         });
         const data = await response.json();
+        console.log('summary:' + data);
         setSummary(data);
       } catch (error) {
         console.error(error);
@@ -96,21 +97,10 @@ function Visual() {
             padding: "0px 10px",
             maxWidth: "300px",
             margin: "auto",
-            position: "absolute",
-            top: "0",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            width: "50%",
-            height: "80px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: "0.5",
             borderRadius: "10px",
           }}
         >
-          <p style={{ color: "white" }}>{comment}</p>
+          <p>{comment}</p>
         </div>
       )}
 
