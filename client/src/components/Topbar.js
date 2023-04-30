@@ -44,7 +44,7 @@ function Topbar({ currentStep }) {
     >
       <div style={step1Style}>Interview</div>
       <div style={step2Style}>Visualize</div>
-      <div style={step3Style}>Suggestor</div>
+      <div style={step3Style}>Suggester</div>
     </div>
   );
 }

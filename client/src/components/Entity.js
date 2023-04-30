@@ -1,4 +1,5 @@
 import React from 'react'
+import "../Good.css"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -29,7 +30,19 @@ function Entity({ name, description, makeComplex }) {
 
         {makeComplex && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <FormControlLabel control={<Checkbox />} label="Task is correct" />
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div class="content">
+                <label class="checkBox">
+                  <input id="ch1" type="checkbox" />
+                  <div class="transition"></div>
+                </label>
+              </div>
+              <p style={{ marginLeft: "15px" }}>Accurate</p>
+
+            </div>
+
+            {/* <FormControlLabel control={<Checkbox />} label="Task is correct" /> */}
             <Button sx={{ width: 100 }} variant="contained" component="label">
               Upload
               <input hidden accept="image/*" multiple type="file" />
