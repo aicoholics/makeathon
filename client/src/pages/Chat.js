@@ -60,6 +60,7 @@ function Chat() {
   return (
     <div className="Chat">
       <Messages messages={messages} currentMember="user" />
+      <div style={{ paddingBottom: "100px" }}></div>
       <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   );
