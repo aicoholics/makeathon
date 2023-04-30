@@ -30,6 +30,7 @@ function Suggestor() {
 
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetch(apiUrl + "suggester", {
@@ -53,6 +54,7 @@ function Suggestor() {
         setRequiredResources(data.result.required_resources);
         setRisks(data.result.risks);
         setSolution(data.result.solution);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -159,9 +161,9 @@ function Suggestor() {
         </div>
 
 
-        <div className='three' style={{ flexBasis: '30%', marginBottom: '20px', position: "fixed", right: "50px", width: "28%" }}>
+        <div className='three' style={{ flexBasis: '30%', marginBottom: '20px', position: "fixed", right: "50px", width: "28%"}}>
           <div style={{
-            backgroundColor: '#333',
+            backgroundColor: '#483d8b',
             borderRadius: '10px',
             padding: '5px 20px',
             color: '#fff',
@@ -170,7 +172,10 @@ function Suggestor() {
           }}>
             <h3>Solution</h3>
             <hr />
+            <details open='true'>
+            <summary>Details</summary>
             <p>{solution}</p>
+          </details>
           </div>
           <div style={{
             backgroundColor: '#333',
@@ -183,7 +188,10 @@ function Suggestor() {
           }}>
             <h3>Expected Value</h3>
             <hr />
+            <details open='false'>
+            <summary>Details</summary>
             <p>{expected_value}</p>
+          </details>
           </div>
           <div style={{
             backgroundColor: '#333',
@@ -195,7 +203,10 @@ function Suggestor() {
           }}>
             <h3>Risks</h3>
             <hr />
+            <details open='false'>
+            <summary>Details</summary>
             <p>{risks}</p>
+          </details>
           </div>
           <div style={{
             backgroundColor: '#333',
@@ -207,7 +218,10 @@ function Suggestor() {
           }}>
             <h3>Required Resources</h3>
             <hr />
+            <details open='false'>
+            <summary>Details</summary>
             <p>{required_resources}</p>
+          </details>
           </div>
 
         </div>
@@ -217,21 +231,23 @@ function Suggestor() {
 
 
 
-
-
-      <div
+      {isLoading ? <div className="spinner"
         style={{
+          margin: "auto",
           position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          margin: "0 auto",
-          width: 1000,
-          paddingBottom: 40,
+          top: "0",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: "0.5",
         }}
-      >
-        <Input onSendMessage={onSendMessage} disabled={isLoading} />
-      </div>
+      ></div> : null}
+
+      <div style={{ paddingBottom: "100px" }}></div>
+      <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   )
 }
