@@ -71,7 +71,7 @@ function Suggestor() {
       },
     ]);
     try {
-      const response = await fetch("http://10.183.68.9:5000/suggester", {
+      const response = await fetch(apiUrl + "suggester", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
