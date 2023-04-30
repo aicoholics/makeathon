@@ -10,10 +10,10 @@ function Entity({ name, description, otherName }) {
     <div style={{
       backgroundColor: '#333',
       borderRadius: '10px',
-      padding: '20px',
+      padding: '10px 20px',
       color: '#fff',
-      width: "500px",
-      margin: "50px auto 0px auto"
+      marginBottom: "20px",
+      maxWidth: "500px",
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -21,10 +21,10 @@ function Entity({ name, description, otherName }) {
           <AccountCircleIcon sx={{ fontSize: 45, marginLeft: '10px' }} />
         </div>
         <p style={{ textAlign: 'left', fontSize: '20px' }}>{description}</p>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        {/* <div style={{ display: 'flex', alignItems: 'center' }}>
           <h3 style={{ margin: "0px 10px" }}>Input:</h3>
           <h3 style={{ background: "blue", padding: "5px 10px", borderRadius: "10px" }}>Other Entity</h3>
-        </div>
+        </div> */}
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <FormControlLabel control={<Checkbox />} label="Task is correct" />

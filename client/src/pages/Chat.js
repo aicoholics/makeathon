@@ -4,6 +4,7 @@ import "../App.css";
 import Input from "../components/Input";
 import { Button } from "@mui/material";
 import MessageContext from "../MessageContext";
+import { apiUrl } from '../config.js';
 
 function Chat() {
 
@@ -28,7 +29,7 @@ function Chat() {
     ]);
 
     try {
-      const response = await fetch("http://10.183.68.9:5000/interviewer", {
+      const response = await fetch(apiUrl + "interviewer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
