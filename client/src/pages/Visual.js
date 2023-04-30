@@ -104,6 +104,20 @@ function Visual() {
         ))}
       </div>
 
+      {isLoading ? <div className="spinner"
+        style={{
+          margin: "auto",
+          position: "absolute",
+          top: "0",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: "0.5",
+        }}
+      ></div> : null}
 
       <div
         style={{
