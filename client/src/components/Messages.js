@@ -1,18 +1,22 @@
 import React from "react";
 
 const toName = { assistant: "AI Consultant", user: "Me" };
-const toColor = { assistant: "blue", user: "green" };
+const toColor = { assistant: "blue", user: "#F64668" };
 
 const Messages = ({ messages, currentMember }) => {
   const renderMessage = (message, index, currentMember) => {
     const { role, content } = message;
+    const backgroundColor = role === "assistant" ? "blue" : "#F64668";
+    const style = { backgroundColor };
+
     const messageFromMe = role === currentMember;
     const className = messageFromMe
       ? "Messages-message currentMember"
       : "Messages-message";
     return (
       <li key={index} className={className}>
-        {/* <span className="avatar" style={{ backgroundColor: toColor[role] }} /> */}
+        {/* <span style={{ backgroundColor: toColor[role] }} /> */}
+
         <div className="Message-content">
           <div className="username">{toName[role]}</div>
           <div className="text">{content}</div>

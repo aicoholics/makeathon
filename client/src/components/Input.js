@@ -77,7 +77,7 @@ const Input = ({ onSendMessage, disabled }) => {
   return (
     <div
       style={{
-        padding: "5px",
+        padding: "0px",
         fontSize: "16px",
         borderRadius: "8px",
         backgroundColor: "#262626",
@@ -98,7 +98,7 @@ const Input = ({ onSendMessage, disabled }) => {
           style={{
             borderColor: "#F64668",
             // color when selected
-            color: "#F64668",
+
             // border color when selected
             outlineColor: "#F64668",
           }}

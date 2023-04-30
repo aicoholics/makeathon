@@ -1,11 +1,11 @@
-import Entity from '../components/Entity';
-import { useEffect, useState, useContext } from 'react';
-import SummaryContext from '../SummaryContext';
-import MessageContext from '../MessageContext';
-import MessageContext2 from '../MessageContext2';
-import EntityContext from '../EntityContext';
-import Input from '../components/Input';
-import { apiUrl } from '../config.js';
+import Entity from "../components/Entity";
+import { useEffect, useState, useContext } from "react";
+import SummaryContext from "../SummaryContext";
+import MessageContext from "../MessageContext";
+import MessageContext2 from "../MessageContext2";
+import EntityContext from "../EntityContext";
+import Input from "../components/Input";
+import { apiUrl } from "../config.js";
 
 function Visual() {
   const [summary, setSummary] = useContext(SummaryContext);
@@ -86,7 +86,7 @@ function Visual() {
       {comment && (
         <div
           style={{
-            backgroundColor: "cornflowerblue",
+            backgroundColor: "#483d8b",
             padding: "0px 10px",
             maxWidth: "300px",
             margin: "auto",
@@ -96,11 +96,17 @@ function Visual() {
           <p style={{ color: "white" }}>{comment}</p>
         </div>
       )}
+<<<<<<< HEAD
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {Object.keys(entities).map((key) => (
           <Entity name={key} description={entities[key]} makeComplex={true} />
 
+=======
+      <div>
+        {Object.keys(entities).map((key) => (
+          <Entity name={key} description={entities[key]} makeComplex={true} />
+>>>>>>> main
         ))}
       </div>
 
