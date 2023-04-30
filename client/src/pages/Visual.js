@@ -25,7 +25,7 @@ function Visual() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            "conversation": [...messages]
+            conversation: [...messages],
           }),
         });
         const data = await response.json();
@@ -36,7 +36,6 @@ function Visual() {
     };
     fetchData();
   }, []);
-
 
   const onSendMessage = async (message) => {
     setIsLoading(true);
@@ -54,12 +53,14 @@ function Visual() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "conversation": [...messages2,
-          {
-            content: message,
-            role: "user",
-          }],
-          "interview_summary": summary
+          conversation: [
+            ...messages2,
+            {
+              content: message,
+              role: "user",
+            },
+          ],
+          interview_summary: summary,
         }),
       });
       const data = await response.json();
@@ -78,11 +79,20 @@ function Visual() {
     setIsLoading(false);
   };
 
-
   return (
-    <div style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}>
+    <div
+      style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}
+    >
       {comment && (
-        <div style={{ backgroundColor: "cornflowerblue", padding: "0px 10px", maxWidth: "300px", margin: "auto", borderRadius: "10px" }}>
+        <div
+          style={{
+            backgroundColor: "cornflowerblue",
+            padding: "0px 10px",
+            maxWidth: "300px",
+            margin: "auto",
+            borderRadius: "10px",
+          }}
+        >
           <p style={{ color: "white" }}>{comment}</p>
         </div>
       )}
