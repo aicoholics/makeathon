@@ -101,6 +101,7 @@ function Visual() {
           <Entity
             name={key}
             description={entities[key]}
+            makeComplex={true}
           />
         ))}
       </div>

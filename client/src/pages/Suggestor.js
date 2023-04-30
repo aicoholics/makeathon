@@ -18,6 +18,17 @@ function Suggestor() {
   const [suggestion, setSuggestion] = useState("");
   const [comment, setComment] = useState("");
 
+  const [current_approach, setCurrentApproach] = useState("");
+  const [expected_value, setExpectedValue] = useState("");
+  const [problem, setProblem] = useState("");
+  const [required_resources, setRequiredResources] = useState("");
+  const [risks, setRisks] = useState("");
+  const [solution, setSolution] = useState("");
+
+
+
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,6 +46,12 @@ function Suggestor() {
         const data = await response.json();
         console.log(data);
         setSuggestion(data);
+        setCurrentApproach(data.result.current_approach);
+        setExpectedValue(data.result.expected_value);
+        setProblem(data.result.problem);
+        setRequiredResources(data.result.required_resources);
+        setRisks(data.result.risks);
+        setSolution(data.result.solution);
       } catch (error) {
         console.error(error);
       }
@@ -101,7 +118,9 @@ function Suggestor() {
             height: "32vh",
             width: "100%"
           }}>
-            <p>Current</p>
+            <h3>Current Approach</h3>
+            <hr />
+            <p>{current_approach}</p>
           </div>
 
           <div style={{
@@ -114,7 +133,9 @@ function Suggestor() {
             height: "32vh",
             width: "100%"
           }}>
-            <p>Problem</p>
+            <h3>Problem</h3>
+            <hr />
+            <p>{problem}</p>
           </div>
         </div>
 
@@ -135,43 +156,49 @@ function Suggestor() {
             borderRadius: '10px',
             padding: '5px 20px',
             color: '#fff',
-            height: "32vh",
+
             width: "100%"
           }}>
-            <p>Suggestion</p>
+            <h3>Solution</h3>
+            <hr />
+            <p>{solution}</p>
           </div>
           <div style={{
             backgroundColor: '#333',
             borderRadius: '10px',
             padding: '5px 20px',
             color: '#fff',
-            height: "10vh",
+
             marginTop: "20px",
             width: "100%"
           }}>
-            <p>Value</p>
+            <h3>Expected Value</h3>
+            <hr />
+            <p>{expected_value}</p>
           </div>
           <div style={{
             backgroundColor: '#333',
             borderRadius: '10px',
             padding: '5px 20px',
             color: '#fff',
-            height: "10vh",
             marginTop: "20px",
             width: "100%"
           }}>
-            <p>Risk</p>
+            <h3>Risks</h3>
+            <hr />
+            <p>{risks}</p>
           </div>
           <div style={{
             backgroundColor: '#333',
             borderRadius: '10px',
             padding: '5px 20px',
             color: '#fff',
-            height: "10vh",
             marginTop: "20px",
             width: "100%"
           }}>
-            <p>Resources</p>
+            <h3>Required Resources</h3>
+            <hr />
+            <p>{required_resources}</p>
           </div>
 
         </div>
