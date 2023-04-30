@@ -8,7 +8,7 @@ function Topbar({ currentStep }) {
     padding: "10px",
     width: "33.33%",
     textAlign: "center",
-    fontWeight: currentStep === 1 ? "bold" : "normal",
+    fontWeight: currentStep === 1 ? "800" : "normal",
   };
 
   const step2Style = {
@@ -17,7 +17,7 @@ function Topbar({ currentStep }) {
     padding: "10px",
     width: "33.33%",
     textAlign: "center",
-    fontWeight: currentStep === 2 ? "bold" : "normal",
+    fontWeight: currentStep === 2 ? "800" : "normal",
   };
 
   const step3Style = {
@@ -26,7 +26,7 @@ function Topbar({ currentStep }) {
     padding: "10px",
     width: "33.33%",
     textAlign: "center",
-    fontWeight: currentStep === 3 ? "bold" : "normal",
+    fontWeight: currentStep === 3 ? "800" : "normal",
   };
 
   return (

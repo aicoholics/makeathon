@@ -14,10 +14,16 @@ function Visual() {
   const [messages2, setMessages2] = useContext(MessageContext2);
   const [entities, setEntities] = useContext(EntityContext);
 
-  const [comment, setComment] = useState("Tell me about your job");
+  const [comment, setComment] = useState(
+    "Please explain the structure of your work/company/industry in detail."
+  );
+  const [showComment, setShowComment] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      const timeoutId = setTimeout(() => {
+        setShowComment(false);
+      }, 5000); // hide the comment after 5 seconds
       try {
         const response = await fetch(apiUrl + "summarizer", {
           method: "POST",
@@ -29,6 +35,7 @@ function Visual() {
           }),
         });
         const data = await response.json();
+        console.log('summary:' + data);
         setSummary(data);
       } catch (error) {
         console.error(error);
@@ -83,7 +90,7 @@ function Visual() {
     <div
       style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}
     >
-      {comment && (
+      {showComment && comment && (
         <div
           style={{
             backgroundColor: "#483d8b",
@@ -93,7 +100,7 @@ function Visual() {
             borderRadius: "10px",
           }}
         >
-          <p style={{ color: "white" }}>{comment}</p>
+          <p>{comment}</p>
         </div>
       )}
 
@@ -104,20 +111,23 @@ function Visual() {
         ))}
       </div>
 
-
-      <div
+      {isLoading ? <div className="spinner"
         style={{
+          margin: "auto",
           position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          margin: "0 auto",
-          width: 1000,
-          paddingBottom: 40,
+          top: "0",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: "0.5",
         }}
-      >
-        <Input onSendMessage={onSendMessage} disabled={isLoading} />
-      </div>
+      ></div> : null}
+
+      <div style={{ paddingBottom: "100px" }}></div>
+      <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   );
 }

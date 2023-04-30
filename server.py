@@ -21,10 +21,9 @@ INTERVIEWER_PROMPT = """You are an interviewer that asks about the position of t
 understand the entails of the organization, including roles, job descriptions, industry, the organization's goal, etc. The purpose of 
 this interview is to gain an overview understanding of aim of the organization. You can ask specific questions to clarify."""
 
-SUMMARIZER_PROMPT = """You are a summarizer that based on the given interview, summarize it accurately."""
+SUMMARIZER_PROMPT = """You are a summarizer that based on the given interview, summarize what the USER said accurately, but without mentioning the INTERVIEWER."""
 
 def VISUALIZER_PROMPT(interview_summary):
-    print('intsfdghj',interview_summary)
     return """You read the user's description, then summarize it to a list of entities and the relations in the company or team, exactly according to the user's description and without your own speculation. 
 You must format the your answer as a single JSON object, and not include any other text at all (example):
 {
@@ -69,23 +68,23 @@ Organization Structure:
 {'Related Informations:' + document_separator.join(documents) if len(documents) > 0 else ''}
 
 Output a use case where AI can be applied to solve a problem in the organization. The use case should include:
-"entity": The entity that has a problem and will be affected by the use case.
-"current_approach": Description of the current approach that you think has a problem or could have a potential improvement.
-"problem": Explanation of the problem you have identified in the current approach.
-"solution": Suggestion on which AI tool can be applied to solve the problem for the entity.
-"expected_value": Qualitative or quantitative evaluation of the expected business value enabled by your AI solution.
-"risks": Potential costs and risks involved in the implementation of your AI solution.
-"required_resources": Resources required to implement your AI solution, including data, people, and infrastructure.
+"entity": The name of the entity that has a problem and will be affected by the use case.
+"current_approach": Detailed description of the current approach that you think has a problem or could have a potential improvement. Refer to the organization summary and structure.
+"problem": Very detailed explanation of the problem you have identified in the current approach. Refer to the organization summary and structure.
+"solution": A very detailed and concrete suggestion on which specific AI tool can be applied to solve the problem for the entity, with examples. It should also explain how to apply the AI tool, and why it is better than the current approach. Refer to the organization summary and structure. It can also compare with alterative approaches. It should be at least 100 words.
+"expected_value": Qualitative or quantitative evaluation of the expected business value enabled by your AI solution. Do not make up numbers.
+"risks": Potential costs and risks involved in the implementation of your AI solution. Do not make up numbers.
+"required_resources": Resources required to implement your AI solution, including data, people, and infrastructure. Give examples.
 
 Format the your answer as a JSON object(example):
 {{
     "entity": "Marketing",
-    "current_approach": "Marketing team manually selects the deals to promote to customers.",
-    "problem": "The marketing team may not be able to select the best deals to promote to customers.",
-    "solution": "AI can select the best deals to promote to customers.",
-    "expected_value": "AI can increase the sales by 10%.",
-    "risks": "AI may not be able to select the best deals to promote to customers.",
-    "required_resources": "Data of the past deals and their performance."
+    "current_approach": "The marketing team currently manually browses through social media to find potential customers and their interests. They spend significant time in doing so.",
+    "problem": "The current approach is inefficient and time-consuming. It is also difficult to find all potential customers and their interests. There is also potential bias in the selection of customers. For instance, the marketing team may only select customers that are similar to themselves, speak a certain language, or tend to be active on social media during the same time of the day.",
+    "solution": "The marketing team can use an NLP model to automatically and constantly monitor social media activity to find potential customers and their interests. The NLP model can also understand multiple languages and be active during any time of the day. It could use a LLM such as GPT-3 to summarize large amounts of text and extract the most important information. It could also use a BERT model to classify the sentiment of the text and understand the customer's interests. The human marketing team can therefore gain a higher level overview with less bias and more efficiency.",
+    "expected_value": "Discovering more potential customers and their interests will lead to more sales and revenue. It will also lead to a more diverse customer base and a better understanding of the market. The marketing team will also be able to spend less time on social media and more time on other tasks.",
+    "risks": "The NLP model may not be able to understand all languages and may not be able to understand all types of text. The training process of the NLP model is crucial to its usefulness and accuracy. The NLP model may also be expensive to train and deploy. A IT team would be required to provide the necessary infrastructure and support. NLP models can still contain biases due to their training data.",
+    "required_resources": "1. Large amount of training data, which can be obtained from the marketing team's past social media activity.\\n2. Large amount of computing power to train and deploy.\\n3. IT team to provide the necessary infrastructure and support."
 }}
 """
 
@@ -93,10 +92,7 @@ AI_MODELS = """
 List of AI models that can be used to solve the problem:
 - ChatGPT: A powerful chatbot that can answer any question in a flexible manner.
 - DALL-E: A powerful image generator that can generate images based on text descriptions.
-- GodAI: The most powerful AI that can solve any problem with the best solution.
-
-
-
+- AutoGPT: A autonomous agent-based chatbot that can plan over a long-term horizon by an iterative process of planning and execution, based on GPT. It can take actions and use tools such as calculators and websearch to achieve its goal.
 """
 
 
@@ -212,8 +208,12 @@ def summarizer():
     if conversation[-1]['role'] == 'assistant':
         conversation = conversation[:-1]
 
+    # convert the conversation to a string
+    conversation = [f"\n{'USER' if msg['role'] == 'user' else 'INTERVIEWER'}:  {msg['content']}" for msg in conversation]
+    conversation = ''.join(conversation)
+        
     # send the conversation to GPT
-    return jsonify(ask_chatGPT(conversation, system_prompt, should_jsonify=False).content)
+    return jsonify(ask_chatGPT([{'role': 'user', 'content': 'Please summarize what the USER said in the following interview precisely. Do not mention the INTERVIEWER at all. \n'+conversation}], system_prompt, should_jsonify=False).content)
 
 
 
