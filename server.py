@@ -163,8 +163,8 @@ def mock_visualizer():
     }
     return jsonify(entrynrelations)
 
-@app.route('/suggester', methods=['GET', 'POST'])
-def suggester():
+@app.route('/mock_suggester', methods=['GET', 'POST'])
+def mock_suggester():
     # get the conversation from the request
     input = request.get_json()
 
@@ -233,8 +233,8 @@ def visualizer():
     return comment_and_result(conversation, system_prompt, json_tester)
 
 
-@app.route('/dev_suggester', methods=['POST'])
-def dev_suggester():
+@app.route('/suggester', methods=['POST'])
+def suggester():
     # get the conversation from the request
     input = request.get_json()
 

@@ -45,6 +45,7 @@ function Suggestor() {
         });
         const data = await response.json();
         console.log(data);
+        setComment(data.comment);
         setSuggestion(data);
         setCurrentApproach(data.result.current_approach);
         setExpectedValue(data.result.expected_value);
@@ -71,7 +72,7 @@ function Suggestor() {
       },
     ]);
     try {
-      const response = await fetch("http://10.183.68.9:5000/suggester", {
+      const response = await fetch(apiUrl + "suggester", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,12 +83,20 @@ function Suggestor() {
             content: message,
             role: "user",
           }],
-          "interview_summary": "summary",
+          "interview_summary": summary,
+          "structure": entities,
         }),
       });
       const data = await response.json();
-      setEntities(data);
+      console.log(data);
       setComment(data.comment);
+      setSuggestion(data);
+      setCurrentApproach(data.result.current_approach);
+      setExpectedValue(data.result.expected_value);
+      setProblem(data.result.problem);
+      setRequiredResources(data.result.required_resources);
+      setRisks(data.result.risks);
+      setSolution(data.result.solution);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -99,13 +108,13 @@ function Suggestor() {
 
   return (
     <div style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}>
-      {/* <div>
+      <div>
         {comment && (
           <div style={{ backgroundColor: "cornflowerblue", padding: "0px 10px", maxWidth: "300px", margin: "auto", borderRadius: "10px" }}>
             <p style={{ color: "white" }}>{comment}</p>
           </div>
         )}
-      </div> */}
+      </div>
 
 
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center" }}>

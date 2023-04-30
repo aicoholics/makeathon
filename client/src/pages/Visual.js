@@ -1,11 +1,11 @@
-import Entity from "../components/Entity";
-import { useEffect, useState, useContext } from "react";
-import SummaryContext from "../SummaryContext";
-import MessageContext from "../MessageContext";
-import MessageContext2 from "../MessageContext2";
-import EntityContext from "../EntityContext";
-import Input from "../components/Input";
-import { apiUrl } from "../config.js";
+import Entity from '../components/Entity';
+import { useEffect, useState, useContext } from 'react';
+import SummaryContext from '../SummaryContext';
+import MessageContext from '../MessageContext';
+import MessageContext2 from '../MessageContext2';
+import EntityContext from '../EntityContext';
+import Input from '../components/Input';
+import { apiUrl } from '../config.js';
 
 function Visual() {
   const [summary, setSummary] = useContext(SummaryContext);
@@ -113,25 +113,31 @@ function Visual() {
           <p style={{ color: "white" }}>{comment}</p>
         </div>
       )}
-      <div>
+
+
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {Object.keys(entities).map((key) => (
           <Entity name={key} description={entities[key]} makeComplex={true} />
         ))}
       </div>
 
-      <div
+      {isLoading ? <div className="spinner"
         style={{
+          margin: "auto",
           position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          margin: "0 auto",
-          width: 1000,
-          paddingBottom: 40,
+          top: "0",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: "0.5",
         }}
-      >
-        <Input onSendMessage={onSendMessage} disabled={isLoading} />
-      </div>
+      ></div> : null}
+
+      <div style={{ paddingBottom: "100px" }}></div>
+      <Input onSendMessage={onSendMessage} disabled={isLoading} />
     </div>
   );
 }
