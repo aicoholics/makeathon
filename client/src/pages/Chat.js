@@ -44,7 +44,7 @@ function Chat() {
         }),
       });
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setMessages((messages) => [
         ...messages.slice(0, -1),
         {
