@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import SendIcon from "@mui/icons-material/Send";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import StopIcon from "@mui/icons-material/Stop";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 // .env
-import dotenv from "dotenv";
-dotenv.config();
+
+// require("dotenv").config();
 
 const Input = ({ onSendMessage, disabled }) => {
   const [text, setText] = useState("");
@@ -15,7 +18,9 @@ const Input = ({ onSendMessage, disabled }) => {
 
     // Creates an instance of a speech config with specified subscription key and service region.
     const speechConfig = sdk.SpeechConfig.fromSubscription(
-      process.env.REACT_APP_AZURE_KEY,
+      // comment out when github
+      // process.env.REACT_APP_SPEECH_KEY,
+      "",
       "germanywestcentral"
     );
     const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
@@ -38,12 +43,6 @@ const Input = ({ onSendMessage, disabled }) => {
         console.log(error);
       }
     );
-
-    // Change the button text to "Stop" while recording
-    const speakButton = document.getElementById("speak-button");
-    if (speakButton) {
-      speakButton.textContent = "Stop";
-    }
   };
 
   const handleStopRecording = () => {
@@ -54,12 +53,6 @@ const Input = ({ onSendMessage, disabled }) => {
     }
 
     recognizer.stopContinuousRecognitionAsync();
-
-    // Reset the button text to "Speak" after recording stops
-    const speakButton = document.getElementById("speak-button");
-    if (speakButton) {
-      speakButton.textContent = "Speak";
-    }
   };
 
   const handleSubmit = (e) => {
@@ -82,7 +75,19 @@ const Input = ({ onSendMessage, disabled }) => {
   };
 
   return (
-    <div className="Input">
+    <div
+      style={{
+        padding: "5px",
+        fontSize: "16px",
+        borderRadius: "8px",
+        backgroundColor: "#262626",
+        flexGrow: 1,
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }}
+    >
       <form onSubmit={handleSubmit}>
         <input
           onChange={handleChange}
@@ -90,17 +95,33 @@ const Input = ({ onSendMessage, disabled }) => {
           type="text"
           placeholder="Enter your message and press ENTER"
           autoFocus
+          style={{
+            borderColor: "#F64668",
+            // color when selected
+            color: "#F64668",
+            // border color when selected
+            outlineColor: "#F64668",
+          }}
           disabled={isRecording || disabled}
         />
         <button
           id="speak-button"
           type="button"
+          style={{
+            backgroundColor: "#F64668",
+          }}
           onClick={isRecording ? handleStopRecording : handleVoiceRecognition}
         >
-          {isRecording ? "Stop" : "Speak"}
+          {isRecording ? <StopIcon /> : <KeyboardVoiceIcon />}
         </button>
-        <button type="button" onClick={handleSendClick}>
-          Send
+        <button
+          type="button"
+          style={{
+            backgroundColor: "#F64668",
+          }}
+          onClick={handleSendClick}
+        >
+          <SendIcon />
         </button>
       </form>
     </div>
