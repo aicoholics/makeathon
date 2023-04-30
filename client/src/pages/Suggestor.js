@@ -7,40 +7,39 @@ import MessageContext3 from '../MessageContext3';
 import EntityContext from '../EntityContext';
 import Input from '../components/Input';
 import Entity from '../components/Entity';
+import { apiUrl } from '../config.js';
 
 function Suggestor() {
 
   const [messages3, setMessages3] = useContext(MessageContext3);
-  const [suggestion, setSuggestion] = useState("");
+  const [entities, setEntities] = useContext(EntityContext);
+  const [summary, setSummary] = useContext(SummaryContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [entities, setEntities] = useState([]);
+  const [suggestion, setSuggestion] = useState("");
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    console.log(entities);
-
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch("http://10.183.68.9:5000/summarizer", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-
-    //         // summary
-    //         // result entity
-    //       }),
-    //     });
-    //     const data = await response.json();
-    //     setSuggestion(data);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-    // fetchData();
-
-
+    const fetchData = async () => {
+      try {
+        const response = await fetch(apiUrl + "suggester", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            "interview_summary": summary,
+            "structure": entities,
+            "conversation": []
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+        setSuggestion(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
   }, []);
 
 
@@ -55,7 +54,7 @@ function Suggestor() {
       },
     ]);
     try {
-      const response = await fetch("http://10.183.68.9:5000/visualizer", {
+      const response = await fetch("http://10.183.68.9:5000/suggester", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,17 +82,107 @@ function Suggestor() {
 
   return (
     <div style={{ position: "relative", minHeight: "100vh", paddingTop: "50px" }}>
-      {comment && (
-        <div style={{ backgroundColor: "cornflowerblue", padding: "0px 10px", maxWidth: "300px", margin: "auto", borderRadius: "10px" }}>
-          <p style={{ color: "white" }}>{comment}</p>
+      {/* <div>
+        {comment && (
+          <div style={{ backgroundColor: "cornflowerblue", padding: "0px 10px", maxWidth: "300px", margin: "auto", borderRadius: "10px" }}>
+            <p style={{ color: "white" }}>{comment}</p>
+          </div>
+        )}
+      </div> */}
+
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center" }}>
+        <div className='one' style={{ flexBasis: '30%', marginBottom: '20px', position: "fixed", left: "10px", width: "28%" }}>
+          <div style={{
+            backgroundColor: '#333',
+            borderRadius: '10px',
+            padding: '5px 20px',
+            color: '#fff',
+            height: "32vh",
+            width: "100%"
+          }}>
+            <p>Current</p>
+          </div>
+
+          <div style={{
+            backgroundColor: '#333',
+            borderRadius: '10px',
+            padding: '5px 20px',
+            color: '#fff',
+            height: "200px",
+            marginTop: "20px",
+            height: "32vh",
+            width: "100%"
+          }}>
+            <p>Problem</p>
+          </div>
         </div>
-      )}
-      {Object.keys(entities).map((key) => (
-        <Entity
-          name={key}
-          description={entities[key]}
-        />
-      ))}
+
+        <div className='two' style={{ flexBasis: '30%', marginBottom: '20px' }}>
+          {Object.keys(entities).map((key) => (
+            <Entity
+              key={key}
+              name={key}
+              description={entities[key]}
+            />
+          ))}
+        </div>
+
+
+        <div className='three' style={{ flexBasis: '30%', marginBottom: '20px', position: "fixed", right: "50px", width: "28%" }}>
+          <div style={{
+            backgroundColor: '#333',
+            borderRadius: '10px',
+            padding: '5px 20px',
+            color: '#fff',
+            height: "32vh",
+            width: "100%"
+          }}>
+            <p>Suggestion</p>
+          </div>
+          <div style={{
+            backgroundColor: '#333',
+            borderRadius: '10px',
+            padding: '5px 20px',
+            color: '#fff',
+            height: "10vh",
+            marginTop: "20px",
+            width: "100%"
+          }}>
+            <p>Value</p>
+          </div>
+          <div style={{
+            backgroundColor: '#333',
+            borderRadius: '10px',
+            padding: '5px 20px',
+            color: '#fff',
+            height: "10vh",
+            marginTop: "20px",
+            width: "100%"
+          }}>
+            <p>Risk</p>
+          </div>
+          <div style={{
+            backgroundColor: '#333',
+            borderRadius: '10px',
+            padding: '5px 20px',
+            color: '#fff',
+            height: "10vh",
+            marginTop: "20px",
+            width: "100%"
+          }}>
+            <p>Resources</p>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+
+
+
       <div
         style={{
           position: "absolute",
