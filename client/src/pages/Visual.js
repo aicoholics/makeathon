@@ -1,5 +1,5 @@
 import Entity from '../components/Entity';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import SummaryContext from '../SummaryContext';
 import MessageContext from '../MessageContext';
 import MessageContext2 from '../MessageContext2';
@@ -19,11 +19,11 @@ function Visual() {
   );
   const [showComment, setShowComment] = useState(true);
 
-  useEffect(() => {
+  const hasMounted = useRef(false);
+
+useEffect(() => {
+  if (!hasMounted.current) {
     const fetchData = async () => {
-      const timeoutId = setTimeout(() => {
-        setShowComment(false);
-      }, 5000); // hide the comment after 5 seconds
       try {
         const response = await fetch(apiUrl + "summarizer", {
           method: "POST",
@@ -42,7 +42,9 @@ function Visual() {
       }
     };
     fetchData();
-  }, []);
+    hasMounted.current = true;
+  }
+}, [messages]);
 
   const onSendMessage = async (message) => {
     setIsLoading(true);

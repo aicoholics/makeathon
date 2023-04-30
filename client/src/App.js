@@ -18,7 +18,7 @@ function App() {
   const [messages, setMessages] = useState([
     {
       content:
-        "Hello I am your new AI consultant. Tell me more about your job.",
+        "Hello, I am your AI consultant. Please tell me about your job/company/industry!",
       role: "assistant",
     },
   ]);
@@ -63,7 +63,7 @@ function App() {
                         left: 0,
                         marginLeft: "20px",
                         marginBottom: "35px",
-                        backgroundColor: "#483d8b",
+                        backgroundColor: "#333333",
                       }}
                       variant="contained"
                       component="label"

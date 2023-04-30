@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import SummaryContext from '../SummaryContext';
 import MessageContext from '../MessageContext';
 import MessageContext2 from '../MessageContext2';
@@ -25,11 +25,11 @@ function Suggestor() {
   const [risks, setRisks] = useState("");
   const [solution, setSolution] = useState("");
 
-
-
-
+  const hasMounted = useRef(false);
 
   useEffect(() => {
+    if (!hasMounted.current) {
+
     setIsLoading(true);
     const fetchData = async () => {
       try {
@@ -45,7 +45,7 @@ function Suggestor() {
           }),
         });
         const data = await response.json();
-        console.log(data);
+        console.log(data.result);
         setComment(data.comment);
         setSuggestion(data);
         setCurrentApproach(data.result.current_approach);
@@ -60,6 +60,8 @@ function Suggestor() {
       }
     };
     fetchData();
+    hasMounted.current = true;
+  }
   }, []);
 
 
@@ -90,7 +92,7 @@ function Suggestor() {
         }),
       });
       const data = await response.json();
-      console.log(data);
+      console.log(data.result);
       setComment(data.comment);
       setSuggestion(data);
       setCurrentApproach(data.result.current_approach);
@@ -172,7 +174,7 @@ function Suggestor() {
           }}>
             <h3>Solution</h3>
             <hr />
-            <details open='true'>
+            <details open={true}>
             <summary>Details</summary>
             <p>{solution}</p>
           </details>

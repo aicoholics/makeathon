@@ -91,8 +91,11 @@ Format the your answer as a JSON object(example):
 AI_MODELS = """
 List of AI models that can be used to solve the problem:
 - ChatGPT: A powerful chatbot that can answer any question in a flexible manner.
+- Bing Chat: A chatbot that has access to the internet, meaning it can base its answers on actual facts and latest information, unlike ChatGPT. It is based on GPT-4.
 - DALL-E: A powerful image generator that can generate images based on text descriptions.
+- StableDiffusion: Like DALL-E, it can generate very realistic images based on text descriptions.
 - AutoGPT: A autonomous agent-based chatbot that can plan over a long-term horizon by an iterative process of planning and execution, based on GPT. It can take actions and use tools such as calculators and websearch to achieve its goal.
+- BERT: A powerful NLP model that can understand text and classify text. It can be fine-tuned to a downstream task such as sentiment analysis.
 """
 
 
