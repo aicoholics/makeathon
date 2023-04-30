@@ -14,6 +14,7 @@ function Entity({ name, description, makeComplex }) {
       color: '#fff',
       marginBottom: "20px",
       maxWidth: "500px",
+      minWidth: "400px"
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
