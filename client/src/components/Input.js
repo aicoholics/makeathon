@@ -16,11 +16,16 @@ const Input = ({ onSendMessage, disabled }) => {
   const handleVoiceRecognition = () => {
     setIsRecording(true);
 
+    const key = window.prompt("Please enter your speech key:");
+
+    if (!key) {
+      setIsRecording(false);
+      return;
+    }
+
     // Creates an instance of a speech config with specified subscription key and service region.
     const speechConfig = sdk.SpeechConfig.fromSubscription(
-      // comment out when github
-      // process.env.REACT_APP_SPEECH_KEY,
-      "",
+      key,
       "germanywestcentral"
     );
     const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
@@ -44,6 +49,10 @@ const Input = ({ onSendMessage, disabled }) => {
       }
     );
   };
+
+
+
+
 
   const handleStopRecording = () => {
     setIsRecording(false);
