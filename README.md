@@ -35,7 +35,9 @@ The AI model may not be able to fully understand the artist's creative vision or
 
 ### Current Approach
 The Quality Control Team manually inspects cans during production and stops the production line when defects or deformations are found.
-Problem: The current inspection process is time-consuming and relies on human error detection. It is also not efficient and may miss some of the defects or deformations, leading to quality issues and waste. The current approach also does not allow for continuous monitoring and detection of defects or deformations, which could lead to loss of production time and materials.
+
+### Problem
+The current inspection process is time-consuming and relies on human error detection. It is also not efficient and may miss some of the defects or deformations, leading to quality issues and waste. The current approach also does not allow for continuous monitoring and detection of defects or deformations, which could lead to loss of production time and materials.
 
 ### Solution
 The Quality Control Team can use an AI model like computer vision combined with machine learning algorithms to detect defects or deformations. As the cans move down the production line, cameras take images of the cans, and the computer vision system automatically analyzes them to detect defects or deformations. The machine learning algorithm can also analyze the data from the cameras and detect patterns that could indicate a defect or deformation, increasing the accuracy of detection over time. This can significantly speed up the inspection process and allow for continuous monitoring and detection of defects or deformations. 
